@@ -12,11 +12,14 @@ class CatalogoPelicula:
     # Permite validar si existe o no un catálogo de película
     def validar_Catalogo(self):        
         if os.path.exists(self.ruta_completa):
-            return f"Bienvenido al Catálogo de {self.nombreCatalogo.title()}"
+            print(f"Bienvenido al Catálogo de {self.nombreCatalogo}")
+            return self.nombreCatalogo
         else:
-            with open(self.ruta_completa, 'a', encoding="utf-8") as file:  # 'a' modo append para agregar o crear el archivo del catálogo de la pelicula
+            with open(self.ruta_completa, 'a', encoding="utf-8") as file:  # 'a' modo append para agregar o crear el archivo del catalgo de la pelicula
                 file.write("Película - Clasificación")
-            return f"Se creó el catálogo {self.ruta_archivo} exitosamente."
+                print(f"Se creó el catálogo de {self.ruta_archivo} exitosamente.")
+                print(f"Bienvenido al Catálogo de {self.nombreCatalogo}")
+            return self.nombreCatalogo
     
     # Permite agregar una película al catálogo correspondiente
     def agregar_Pelicula(self):
