@@ -30,6 +30,21 @@ class CatalogoPelicula:
             file.write(f"\n{peli.get_nombre()} - {peli.clasificacion}")
         print(f"La película {peli.get_nombre()} se registro exitosamente.")
     
+    # Funcion que permite al usuario eliminar un catalogo si así lo desea
+    def eliminar_catalogo(self):
+        catalogoAEliminar = input("Ingrese el nombre del catalogo que desee eliminar: ").lower()
+        confirmacion = input(f'¿Está seguro que desea borrar el catálogo {catalogoAEliminar} de forma permanente? (Si/No): ').title()
+        if confirmacion == 'Si' and catalogoAEliminar == self.nombreCatalogo:
+            if os.path.exists(self.ruta_completa):
+                os.remove(self.ruta_completa)
+                print(f"El catalogo {catalogoAEliminar} se elimino con exito.")
+            else:
+                print(f"El catalogo {catalogoAEliminar} no existe. Asegurese de haber escrito bien el nombre.")
+        elif confirmacion == 'No':
+            print("Ha seleccionado no eliminar el catalogo.")
+        else: 
+            print("Opcion no valida. Debe responder con Si o No.")
+    
     #Permite mostrar todas las opciones disponibles para trabajar en el catálogo de películas
     def mostrar_menu_opciones(self):
         try:
@@ -48,18 +63,12 @@ class CatalogoPelicula:
             print("Error: Solo se permite un número del 1 al 4.")
             return CatalogoPelicula.mostrar_menu_opciones()
     
+
+
 #Ejemplos para probar las funcionalidades mientras se implementa el metodo    
 catalogo = CatalogoPelicula("terror")
 print(catalogo.validar_Catalogo())
 catalogo.agregar_Pelicula()
 
-
-
-
-
-
-
-
-
-
+print(catalogo.eliminar_catalogo())
 
