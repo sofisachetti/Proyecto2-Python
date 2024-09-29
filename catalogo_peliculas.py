@@ -30,6 +30,24 @@ class CatalogoPelicula:
             file.write(f"\n{peli.get_nombre()} - {peli.clasificacion}")
         print(f"La película {peli.get_nombre()} se registro exitosamente.")
     
+    #Permite mostrar todas las opciones disponibles para trabajar en el catálogo de películas
+    def mostrar_menu_opciones(self):
+        try:
+            opcion = int(input(f"--- Menú del Catálogo {self.nombreCatalogo} --- \n"
+                        "1) Agregar pelicula\n"
+                        "2) Mostrar Catálogo de peliculas \n"
+                        "3) Eliminar Catálogo de peliculas \n"
+                        "4) Salir \n"
+                        "Tu opción: "))
+            if opcion == 1 or opcion == 2 or opcion == 3 or opcion == 4:
+                return opcion
+            else:
+                print("Error: Solo se permite un número del 1 al 4.")
+                return CatalogoPelicula.mostrar_menu_opciones()  
+        except ValueError:
+            print("Error: Solo se permite un número del 1 al 4.")
+            return CatalogoPelicula.mostrar_menu_opciones()
+    
 #Ejemplos para probar las funcionalidades mientras se implementa el metodo    
 catalogo = CatalogoPelicula("terror")
 print(catalogo.validar_Catalogo())
