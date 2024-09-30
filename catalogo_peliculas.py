@@ -1,5 +1,6 @@
 # Aca va la clase CatalogoPelicula y la  logica del menu
 
+# Importamos los modulos necesarios
 import pelicula
 from directorioCatalogo import DirectorioCatalogo
 import os
@@ -46,6 +47,17 @@ class CatalogoPelicula:
         else:
             print(f"La película {peli.get_nombre()} ya está registrada en el catálogo {self.nombreCatalogo}.")
 
+    # Funcion para listar todas las peliculas dentro de un catalogo buscado
+    def listar_peliculas(self):
+        print("---MOSTRAR PELICULAS---")
+        catalogoListar = input("Escribe el nombre del catalogo: ").title()
+        if catalogoListar == self.nombreCatalogo:
+            with open(self.ruta_archivo_completo, 'r') as file:
+                print(f"Peliculas del catalogo {catalogoListar}: \n")
+                contenidoCatalogo = file.read()
+                print(contenidoCatalogo)
+        else:
+            print("Lo sentimos. El catalogo ingresado no existe o esta escrito de forma incorrecta.")
     
     # Funcion que permite al usuario eliminar un catalogo si así lo desea
     def eliminar_catalogo(self):
@@ -90,7 +102,7 @@ class CatalogoPelicula:
             if opcion == 1:
                 CatalogoPelicula.agregar_pelicula(self)
             elif opcion == 2:
-                pass
+                CatalogoPelicula.listar_peliculas(self)
             elif opcion == 3:
                 CatalogoPelicula.eliminar_catalogo(self)
             else:
