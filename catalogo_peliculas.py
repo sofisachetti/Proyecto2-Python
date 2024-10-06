@@ -5,6 +5,7 @@ import pelicula
 from directorioCatalogo import DirectorioCatalogo
 import os
 from colorama import Fore, Style, init
+import unicodedata
 
 class CatalogoPelicula:
     def __init__(self, nombreCatalogo):
@@ -13,6 +14,10 @@ class CatalogoPelicula:
         self.directorio = "Catalogos" # Nombre del directorio
         self.ruta_directorio = os.path.join(os.getcwd(),self.directorio) # Ruta completa del directorio
         self.ruta_archivo_completo = os.path.join(self.ruta_directorio, self.ruta_archivo)  # Ruta completa del archivo de catálogo
+    
+    #Permite eliminar los acentos en el nombre del catálogo   
+    def eliminar_acentos(nombreCatalogo):
+        return ''.join(c for c in unicodedata.normalize('NFD', nombreCatalogo) if unicodedata.category(c) != 'Mn').title()
         
     # Permite validar si existe o no un catálogo de película
     def validar_catalogo(self):  # Si existe, nos lleva al catalogo
@@ -23,7 +28,7 @@ class CatalogoPelicula:
         else: #Si no existe, lo crea
             with open(self.ruta_archivo_completo, 'a', encoding="utf-8") as file: 
                 file.write("Película - Clasificación")
-                print(f"Se creó el catálogo de {self.ruta_archivo} exitosamente.")
+                print(f"✔️  Se creó el catálogo de {self.ruta_archivo} exitosamente.")
                 print(f"Bienvenido al Catálogo de Películas de {self.nombreCatalogo}")
             return self.nombreCatalogo                
         
@@ -33,7 +38,7 @@ class CatalogoPelicula:
         print(Fore.YELLOW)
         print("--- CREACIÓN DEL CATÁLOGO ---")
         print("Comencemos con el catálogo que deseas crear o modificar.\n")
-        nombreCat = input("Escribe el nombre del catálogo de películas: ").title()
+        nombreCat = CatalogoPelicula.eliminar_acentos(input("Escribe el nombre del catálogo de películas: ").title() )       
         catalogoPeli = CatalogoPelicula(nombreCat)  
         catalogoPeli.creacion_catalogo()
         print(Style.RESET_ALL, end="")
@@ -50,9 +55,9 @@ class CatalogoPelicula:
         if resultado == False: # Si no existe, la crea
             with open(self.ruta_archivo_completo, "a", encoding="utf-8") as file:
                 file.write(f"\n{peli.get_nombre()} - {peli.clasificacion}")
-            print(f"La película {peli.get_nombre()} se registro exitosamente.")
+            print(f" ✔️  La película {peli.get_nombre()} se registro exitosamente.")
         else: # Si ya existe, avisa con un mensaje
-            print(f"La película {peli.get_nombre()} ya está registrada en el catálogo {self.nombreCatalogo}.")
+            print(f"⚠️  La película {peli.get_nombre()} ya está registrada en el catálogo {self.nombreCatalogo}.")
         print(Style.RESET_ALL, end="")
         
     # Funcion para listar todas las peliculas dentro de un catalogo buscado
@@ -67,7 +72,7 @@ class CatalogoPelicula:
                     contenidoCatalogo = file.read()
                     print(contenidoCatalogo)
         except:
-            print("Lo sentimos. El catálogo ingresado no existe o esta escrito de forma incorrecta.")
+            print("⚠️  Lo sentimos. El catálogo ingresado no existe o esta escrito de forma incorrecta.")
         print(Style.RESET_ALL, end="")
         
     # Funcion que permite al usuario eliminar un catalogo si así lo desea
@@ -79,12 +84,12 @@ class CatalogoPelicula:
         while confirmacion not in ["Si", "No"]:
             confirmacion = input(f'¿Está seguro que desea borrar el catálogo {self.nombreCatalogo} de forma permanente? (Si/No): ').title()
             if confirmacion not in ["Si", "No"]:
-                print("Error: Solo se permite una opción de Si o No.")
+                print("❌  Error: Solo se permite una opción de Si o No.")
         
         if confirmacion == 'Si': #and catalogoAEliminar == self.nombreCatalogo:
             if os.path.exists(self.ruta_archivo_completo): # Se corrobora que el catálogo exista y lo elimina.
                 os.remove(self.ruta_archivo_completo)
-                print(f"El catálogo {self.nombreCatalogo} se elimino con exito.")
+                print(f"🗑️  El catálogo {self.nombreCatalogo} se elimino con exito.")
                 print("Crea un nuevo catálogo de películas:")
                 CatalogoPelicula.datos_catalogo()
                 return True
@@ -105,10 +110,10 @@ class CatalogoPelicula:
         while confirmacion not in ["Si", "No"]:
             confirmacion = input(f"¿Quieres cambiar a otro catálogo de películas? (Si/No): ").title()
             if confirmacion not in ["Si", "No"]:
-                print("Error: Solo se permite una opción de Si o No.")
+                print("❌  Error: Solo se permite una opción de Si o No.")
         
         if confirmacion == "Si":
-            print("Haz elegido cambiar de catálogo de películas.")
+            print("🔄  Haz elegido cambiar de catálogo de películas.")
             CatalogoPelicula.datos_catalogo()
             return True
         else:
@@ -132,10 +137,10 @@ class CatalogoPelicula:
             if opcion == 1 or opcion == 2 or opcion == 3 or opcion == 4 or opcion == 5:
                 return opcion
             else:
-                print("Error: Solo se permite un número del 1 al 5.")
+                print("❌  Error: Solo se permite un número del 1 al 5.")
                 return CatalogoPelicula.mostrar_menu_opciones()  
         except ValueError:
-            print("Error: Solo se permite un número del 1 al 5.")
+            print("❌  Error: Solo se permite un número del 1 al 5.")
             return CatalogoPelicula.mostrar_menu_opciones()
     
     # Permite mostrar las opciones del menú para el catálogo de película
