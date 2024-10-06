@@ -32,7 +32,7 @@ class CatalogoPelicula:
         init()
         print(Fore.YELLOW)
         print("--- CREACIÓN DEL CATÁLOGO ---")
-        print("Comencemos el catálogo que deseas crear o modificar.\n")
+        print("Comencemos con el catálogo que deseas crear o modificar.\n")
         nombreCat = input("Escribe el nombre del catálogo de películas: ").title()
         catalogoPeli = CatalogoPelicula(nombreCat)  
         catalogoPeli.creacion_catalogo()
@@ -60,13 +60,13 @@ class CatalogoPelicula:
         init()
         print(Fore.MAGENTA)
         print("---MOSTRAR PELÍCULAS---")
-        catalogoListar = input("Escribe el nombre del catálogo: ").title()
-        if catalogoListar == self.nombreCatalogo:
-            with open(self.ruta_archivo_completo, 'r', encoding="utf-8") as file:
-                print(f"Películas del catálogo {catalogoListar}: \n")
-                contenidoCatalogo = file.read()
-                print(contenidoCatalogo)
-        else:
+        try: 
+            if self.nombreCatalogo:
+                with open(self.ruta_archivo_completo, 'r', encoding="utf-8") as file:
+                    print(f"Películas del catálogo {self.nombreCatalogo}: \n")
+                    contenidoCatalogo = file.read()
+                    print(contenidoCatalogo)
+        except:
             print("Lo sentimos. El catálogo ingresado no existe o esta escrito de forma incorrecta.")
         print(Style.RESET_ALL, end="")
         
@@ -75,22 +75,21 @@ class CatalogoPelicula:
         init()
         print(Fore.YELLOW)
         print("--- ELIMINAR CATÁLOGO ---")
-        catalogoAEliminar = input("Confirme el nombre del catálogo que desee eliminar: ").title()
         confirmacion = ""
         while confirmacion not in ["Si", "No"]:
-            confirmacion = input(f'¿Está seguro que desea borrar el catálogo {catalogoAEliminar} de forma permanente? (Si/No): ').title()
+            confirmacion = input(f'¿Está seguro que desea borrar el catálogo {self.nombreCatalogo} de forma permanente? (Si/No): ').title()
             if confirmacion not in ["Si", "No"]:
                 print("Error: Solo se permite una opción de Si o No.")
         
-        if confirmacion == 'Si' and catalogoAEliminar == self.nombreCatalogo:
+        if confirmacion == 'Si': #and catalogoAEliminar == self.nombreCatalogo:
             if os.path.exists(self.ruta_archivo_completo): # Se corrobora que el catálogo exista y lo elimina.
                 os.remove(self.ruta_archivo_completo)
-                print(f"El catálogo {catalogoAEliminar} se elimino con exito.")
+                print(f"El catálogo {self.nombreCatalogo} se elimino con exito.")
                 print("Crea un nuevo catálogo de películas:")
                 CatalogoPelicula.datos_catalogo()
                 return True
             else: # Si el catalogo no existe o esta mal escrito, avisa al usuario. 
-                print(f"El catálogo {catalogoAEliminar} no existe. Asegurese de haber escrito bien el nombre.")
+                print(f"El catálogo {self.nombreCatalogo} no existe. Asegurese de haber escrito bien el nombre.")
         else:
             print("Ha seleccionado no eliminar el catálogo.")
             CatalogoPelicula.datos_catalogo() # Vuelve al menu inicial

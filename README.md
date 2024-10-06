@@ -37,14 +37,12 @@ Una vez ingresada la nueva película, nos devuelve automaticamente al menú de o
 ### Mostrar catálogo de películas
 A esta opción accedemos ingresando el comando `2`.
 
-El programa nos va a pedir que ingresemos el nombre de un catálogo y nos va a permitir ver todas las películas que se hayan guardado en dicho catálogo. 
-
-Una vez realizada la operación, el programa muestra nuevamente el menú de opciones. 
+Eesta opción nos va a permitir ver todas las películas que se hayan guardado en nuestro catálogo. Una vez realizada la operación, el programa muestra nuevamente el menú de opciones. 
 
 ### Eliminar catálogo de películas
 A esta opción se accede con el comando `3`.
 
-El programa nos va a pedir que ingresemos el nombre del catálogo que tengamos que eliminar, seguido de una confirmación si/no.
+Esta opción nos va a permitir eliminar el catálogo en su totalidad. El programa nos va a pedir una confirmación de Si/No para validar nuestra opción.
 
 Si se confirma la operación, se elimina el catálogo elegido en su totalidad.
 
