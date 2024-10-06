@@ -1,4 +1,4 @@
-# En este archivo va la clase pelicula
+# En este archivo va la clase Pelicula y sus metododos
 
 class Pelicula:
     def __init__(self, nombre, clasificacion):

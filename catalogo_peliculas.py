@@ -1,4 +1,4 @@
-# Aca va la clase CatalogoPelicula y la  logica del menu
+# Aca va la clase CatalogoPelicula y la logica del menu de opciones
 
 # Importamos los modulos necesarios
 import pelicula
@@ -15,13 +15,13 @@ class CatalogoPelicula:
         self.ruta_archivo_completo = os.path.join(self.ruta_directorio, self.ruta_archivo)  # Ruta completa del archivo de catálogo
         
     # Permite validar si existe o no un catálogo de película
-    def validar_catalogo(self):  
+    def validar_catalogo(self):  # Si existe, nos lleva al catalogo
         DirectorioCatalogo.validar_directorio_catalogo(self.ruta_directorio)
         if os.path.exists(self.ruta_archivo_completo):
             print(f"Bienvenido al Catálogo de Películas de {self.nombreCatalogo}")
             return self.nombreCatalogo
-        else:
-            with open(self.ruta_archivo_completo, 'a', encoding="utf-8") as file:  # 'a' modo append para agregar o crear el archivo del catalgo de la pelicula
+        else: #Si no existe, lo crea
+            with open(self.ruta_archivo_completo, 'a', encoding="utf-8") as file: 
                 file.write("Película - Clasificación")
                 print(f"Se creó el catálogo de {self.ruta_archivo} exitosamente.")
                 print(f"Bienvenido al Catálogo de Películas de {self.nombreCatalogo}")
@@ -32,6 +32,7 @@ class CatalogoPelicula:
         init()
         print(Fore.YELLOW)
         print("--- CREACIÓN DEL CATÁLOGO ---")
+        print("Comencemos el catálogo que deseas crear o modificar.\n")
         nombreCat = input("Escribe el nombre del catálogo de películas: ").title()
         catalogoPeli = CatalogoPelicula(nombreCat)  
         catalogoPeli.creacion_catalogo()
@@ -44,13 +45,13 @@ class CatalogoPelicula:
         print("--- AGREGAR PELÍCULA ---")
         nombrePelicula = input("Escribe el nombre de la película: ").title()
         clasificacionPelicula = input(f"Escribe la clasificación de la película ({nombrePelicula}): ").title()
-        peli = pelicula.Pelicula(nombrePelicula,clasificacionPelicula)
-        resultado = peli.buscar_pelicula(self.ruta_archivo_completo, nombrePelicula)
-        if resultado == False:
+        peli = pelicula.Pelicula(nombrePelicula,clasificacionPelicula) # Llamamos a la clase Pelicula para la creacion del objeto
+        resultado = peli.buscar_pelicula(self.ruta_archivo_completo, nombrePelicula) # Corroboramos si la pelicula ya existe
+        if resultado == False: # Si no existe, la crea
             with open(self.ruta_archivo_completo, "a", encoding="utf-8") as file:
                 file.write(f"\n{peli.get_nombre()} - {peli.clasificacion}")
             print(f"La película {peli.get_nombre()} se registro exitosamente.")
-        else:
+        else: # Si ya existe, avisa con un mensaje
             print(f"La película {peli.get_nombre()} ya está registrada en el catálogo {self.nombreCatalogo}.")
         print(Style.RESET_ALL, end="")
         
@@ -74,7 +75,7 @@ class CatalogoPelicula:
         init()
         print(Fore.YELLOW)
         print("--- ELIMINAR CATÁLOGO ---")
-        catalogoAEliminar = input("Ingrese el nombre del catálogo que desee eliminar: ").title()
+        catalogoAEliminar = input("Confirme el nombre del catálogo que desee eliminar: ").title()
         confirmacion = ""
         while confirmacion not in ["Si", "No"]:
             confirmacion = input(f'¿Está seguro que desea borrar el catálogo {catalogoAEliminar} de forma permanente? (Si/No): ').title()
@@ -82,20 +83,20 @@ class CatalogoPelicula:
                 print("Error: Solo se permite una opción de Si o No.")
         
         if confirmacion == 'Si' and catalogoAEliminar == self.nombreCatalogo:
-            if os.path.exists(self.ruta_archivo_completo):
+            if os.path.exists(self.ruta_archivo_completo): # Se corrobora que el catálogo exista y lo elimina.
                 os.remove(self.ruta_archivo_completo)
                 print(f"El catálogo {catalogoAEliminar} se elimino con exito.")
                 print("Crea un nuevo catálogo de películas:")
                 CatalogoPelicula.datos_catalogo()
                 return True
-            else:
+            else: # Si el catalogo no existe o esta mal escrito, avisa al usuario. 
                 print(f"El catálogo {catalogoAEliminar} no existe. Asegurese de haber escrito bien el nombre.")
         else:
             print("Ha seleccionado no eliminar el catálogo.")
+            CatalogoPelicula.datos_catalogo() # Vuelve al menu inicial
             return False
         print(Style.RESET_ALL, end="")
             
-
     #Permite la opción de cambiar a otro catálogo de películas
     def cambiar_catalogo(self):
         init()
@@ -162,7 +163,9 @@ class CatalogoPelicula:
                 print(Style.RESET_ALL, end="")
                 break
 
-
 # Permite al usuario ingresar el catalógo de las peliculas
+init()
+print(Fore.MAGENTA)
+print("--- ✨ 🎥 ¡Bienvenido al Catálogo de Películas! 🎥 ✨---")
+print(Style.RESET_ALL, end="")
 CatalogoPelicula.datos_catalogo()
-
